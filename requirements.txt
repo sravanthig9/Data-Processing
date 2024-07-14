@@ -1,5 +1,6 @@
 faker
 dask
+dask[dataframe]
 dask[distributed]
 pandas
 numpy

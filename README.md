@@ -27,6 +27,7 @@ This project contains a Python script to generate and anonymize large datasets. 
  
 5. Run the program
     ```sh
+    export ANONYMIZE_MODE=default  # or 2gb
     python data_anonymize.py
 
 ### Note
@@ -41,8 +42,11 @@ If you choose the default mode, you will be prompted to enter the number of reco
 
      docker build -t data-anonymizer .
 ###  Run the Docker container
-   
-     docker run -it --rm data-anonymizer
+     1. For Default Env
+     docker run -e ANONYMIZE_MODE=default -v ${PWD}:/app/data data-anonymizer
+     2. For 2GB Env
+     docker run -e ANONYMIZE_MODE=2gb -v ${PWD}:/app/data data-anonymizer
+
 ### Explanation
 - `Data Generation`:Splits the data generation task into multiple processes to use the system's CPU capabilities and generates fake data using the faker library and writes it to CSV files in chunks.
 - `Merging CSV Files`: Merges the generated CSV files into a single file.

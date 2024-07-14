@@ -10,9 +10,21 @@ import random
 
 fake = faker.Faker()
 
+# Determine if running in Docker
+in_docker = os.path.exists('/.dockerenv')
+
+# Set the output directory
+if in_docker:
+    output_dir = '/app/data'
+else:
+    output_dir = 'data'
+
+# Ensure the output directory exists
+os.makedirs(output_dir, exist_ok=True)
+
 # Function to generate data and write to a CSV file in chunks
 def generate_data_part(file_id, records_per_process, batch_size):
-    csv_filename = f'data_chunk_{file_id}.csv'
+    csv_filename = os.path.join(output_dir, f'data_chunk_{file_id}.csv')
     with open(csv_filename, mode='w', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=["first_name", "last_name", "address", "date_of_birth"])
         writer.writeheader()
@@ -32,16 +44,18 @@ def generate_data_part(file_id, records_per_process, batch_size):
 
 # Function to combine multiple CSV files into a single CSV file
 def combine_csv_files(process_count, final_output):
-    with open(final_output, mode='w', newline='') as outfile:
+    final_output_path = os.path.join(output_dir, final_output)
+    with open(final_output_path, mode='w', newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=["first_name", "last_name", "address", "date_of_birth"])
         writer.writeheader()
         for i in range(process_count):
-            with open(f'data_chunk_{i}.csv', mode='r') as infile:
+            chunk_path = os.path.join(output_dir, f'data_chunk_{i}.csv')
+            with open(chunk_path, mode='r') as infile:
                 reader = csv.DictReader(infile)
                 for row in reader:
                     writer.writerow(row)
-            os.remove(f'data_chunk_{i}.csv')
-    print(f"All chunk files merged into {final_output}")
+            os.remove(chunk_path)
+    print(f"All chunk files merged into {final_output_path}")
 
 # Function to calculate the optimal number of parallel processes based on CPU count
 def calculate_process_count(utilization=0.7):
@@ -77,9 +91,12 @@ def execute_data_generation(record_count, execution_mode):
 def anonymize_csv_data(input_filename, output_filename):
     print(f"Starting anonymization for {input_filename}...")
     
-    client = Client()
+    client = Client(timeout="60s", heartbeat_interval="30s")
 
-    ddf = dd.read_csv(input_filename)
+    input_path = os.path.join(output_dir, input_filename)
+    output_path = os.path.join(output_dir, output_filename)
+
+    ddf = dd.read_csv(input_path)
 
     start_time = time.time()
 
@@ -87,17 +104,23 @@ def anonymize_csv_data(input_filename, output_filename):
     ddf['last_name'] = ddf['last_name'].apply(lambda x: f"Anon_{random.randint(1, 100000)}", meta=('x', 'object'))
     ddf['address'] = ddf['address'].apply(lambda x: f"Addr_{random.randint(1, 100000)}", meta=('x', 'object'))
 
-    ddf.to_csv(output_filename, single_file=True, index=False)
+    ddf.to_csv(output_path, single_file=True, index=False)
 
     end_time = time.time()
     print(f"Anonymized data saved to {output_filename} in {end_time - start_time:.2f} seconds.")
 
 # Main function to select mode and initiate the process
 if __name__ == '__main__':
-    mode = input("Select mode (default/2GB): ").strip().lower()
+    mode = os.getenv('ANONYMIZE_MODE', 'default').strip().lower()
+
+    if mode not in ['default', '2gb']:
+        raise ValueError("Invalid mode. Choose 'default' or '2gb'.")
+
+    print(f"Selected mode: {mode}")
 
     if mode == '2gb':
-        if os.path.exists('data_2gb.csv'):
+        data_2gb_path = os.path.join(output_dir, 'data_2gb.csv')
+        if os.path.exists(data_2gb_path):
             print("data_2gb.csv already exists. Using the existing file.")
             anonymize_csv_data('data_2gb.csv', 'anonymized_data_2gb.csv')
         else:
@@ -106,7 +129,7 @@ if __name__ == '__main__':
             execute_data_generation(record_count, mode)
     else:
         print("Default mode selected.")
-        record_count = input("Enter the number of records (default is 1 million): ").strip()
+        record_count = os.getenv('RECORD_COUNT', '1000000').strip()
         if not record_count.isdigit():
             record_count = 1000000
         else:
