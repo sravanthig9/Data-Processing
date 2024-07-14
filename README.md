@@ -38,10 +38,10 @@ If you choose the default mode, you will be prompted to enter the number of reco
 
 ## Run in Docker
 ###  Build the Docker image
-    ```sh
+
      docker build -t data-anonymizer .
 ###  Run the Docker container
-     ```sh
+   
      docker run -it --rm data-anonymizer
 ### Explanation
 - `Data Generation`:Splits the data generation task into multiple processes to use the system's CPU capabilities and generates fake data using the faker library and writes it to CSV files in chunks.
