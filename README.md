@@ -24,7 +24,12 @@ This project contains a Python script to generate and anonymize large datasets. 
 3. Install the required libraries:
    ```sh
    pip install -r requirements.txt
-2. Run the program
+4. Upgrade pip
+
+  ```sh
+  python -m pip install --upgrade pip
+ 
+5. Run the program
    ```sh
    python data_anonymize.py
 - `Choose mode`:
