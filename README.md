@@ -16,6 +16,7 @@ This project contains a Python script to generate and anonymize large datasets. 
  2. Activate the Virtual Environment
 
      Windows:
+    
       ```sh
      .\venv\Scripts\activate
     
