@@ -32,7 +32,7 @@ This project contains a Python script to generate and anonymize large datasets. 
 5. Run the program
    ```sh
    python data_anonymize.py
-    ``
+##  Note
 - `Choose mode`:
 - `default`: Generates a smaller dataset (default is 1 million records).
 - `2GB`: Generates a larger dataset (approximately 2GB in size).
