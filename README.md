@@ -10,10 +10,11 @@ This project contains a Python script to generate and anonymize large datasets. 
 # Usage
 
 ## Run in Local
-### Install the required libraries:
+1. Install the required libraries:
 ```sh
  pip install -r requirements.txt
-####  code for runnin
+2. Run the program
+```sh
  python data_anonymize.py
 - `Choose mode`:
 `default`: Generates a smaller dataset (default is 1 million records).
