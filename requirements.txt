@@ -1,3 +1,5 @@
-dask[dataframe]
-pandas
 faker
+dask
+dask[distributed]
+pandas
+numpy
