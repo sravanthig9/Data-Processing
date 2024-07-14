@@ -76,7 +76,7 @@ def merge_csv_files(num_processes, output_file):
 # Function to determine the number of processes based on system capabilities
 def get_num_processes(usage_percentage=0.7):
     total_cpus = multiprocessing.cpu_count()
-    max_parallel_processes = total_cpus * 5  # 10 processes per CPU
+    max_parallel_processes = total_cpus * 5  # 5 processes per CPU
     num_processes = max(1, int(max_parallel_processes * usage_percentage))
     print(f"Using {num_processes} parallel tasks across {total_cpus} CPUs (70% utilization).")
     return num_processes
