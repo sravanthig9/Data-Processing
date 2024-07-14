@@ -7,12 +7,13 @@ This project contains a Python script to generate and anonymize large datasets. 
 - `Dockerfile`: Docker configuration to run the scripts.
 - `requirements.txt`: List of dependencies.
 
-## Usage
+# Usage
 
-### Run in Local
-####  Install the required libraries:
+## Run in Local
+### Install the required libraries:
+```sh
  pip install -r requirements.txt
-####code for running 
+####  code for runnin
  python data_anonymize.py
 - `Choose mode`:
 `default`: Generates a smaller dataset (default is 1 million records).
