@@ -14,12 +14,10 @@ This project contains a Python script to generate and anonymize large datasets. 
    ```sh
    python -m venv venv
  2. Activate the Virtual Environment
-
-     Windows:
-    
-      ```sh
-     .\venv\Scripts\activate
-    ` Linux or macOS:
+    `Windows`:
+    ```sh
+    .\venv\Scripts\activate
+    `Linux or macOS`:
      ```sh
     source venv/bin/activate
 1. Install the required libraries:
