@@ -27,7 +27,7 @@ This project contains a Python script to generate and anonymize large datasets. 
  
 5. Run the program
     ```sh
-    export ANONYMIZE_MODE=default  # or 2gb
+    $env:ANONYMIZE_MODE = "default" #or "2gb"
     python data_anonymize.py
 
 ### Note
