@@ -24,12 +24,19 @@ This project contains a Python script to generate and anonymize large datasets. 
    pip install -r requirements.txt
 4. Upgrade pip
 
-  ```sh
-  python -m pip install --upgrade pip
+   ```sh
+   python -m pip install --upgrade pip
  
 5. Run the program
-   ```sh
-   python data_anonymize.py
+    ```sh
+    python data_anonymize.py
+
+### Note
+- `Choose mode`:
+`default`: Generates a smaller dataset (default is 1 million records).
+`2GB`: Generates a larger dataset (approximately 2GB in size).
+Enter Number of Records
+If you choose the default mode, you will be prompted to enter the number of records. If you leave it blank, the default is 1 million records.
 
 ## Run in Docker
 1. docker build -t data-anonymizer 
