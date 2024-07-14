@@ -20,11 +20,6 @@ This project contains a Python script to generate and anonymize large datasets. 
       ```sh
      .\venv\Scripts\activate
     
-    Linux or macOS:
-     ```sh
-    source venv/bin/activate
-
-    
 1. Install the required libraries:
    ```sh
    pip install -r requirements.txt
