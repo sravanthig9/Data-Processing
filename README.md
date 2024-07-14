@@ -18,6 +18,7 @@ This project contains a Python script to generate and anonymize large datasets. 
     Windows:
     ```sh
      .\venv\Scripts\activate
+    
     Linux or macOS
      ```sh
     source venv/bin/activate
